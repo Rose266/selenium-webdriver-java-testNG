@@ -21,6 +21,7 @@ public class Topic_03_Xpath {
 		// Mở browser lên
 		System.setProperty("webdriver.gecko.driver", projectPath+"\\browserDrivers\\geckodriver.exe");
 		driver= new FirefoxDriver();
+	
 		
 		// Hàm này sẽ áp dụng cho việc tìm element (findElement/findElements)
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -64,6 +65,7 @@ public class Topic_03_Xpath {
 		// Thao tác với Password textbox
 		
 		// Thao tác Login
+		
 		
 	}
 	@Test
