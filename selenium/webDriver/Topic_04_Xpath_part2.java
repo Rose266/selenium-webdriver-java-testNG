@@ -84,7 +84,7 @@ public class Topic_04_Xpath_part2 {
 		driver.findElement(By.id("txtCPassword")).sendKeys("Hoa123");
 		driver.findElement(By.id("txtPhone")).sendKeys("0123456789");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		Assert.assertEquals(driver.findElement(By.id("txtCPassword")).getText(),"Mật khẩu bạn nhập không khớp");
+		Assert.assertEquals(driver.findElement(By.id("txtCPassword-error")).getText(),"Mật khẩu bạn nhập không khớp");
 		
 	}
 	
@@ -98,7 +98,7 @@ public class Topic_04_Xpath_part2 {
 		driver.findElement(By.id("txtCPassword")).sendKeys("Hoa12345");
 		driver.findElement(By.id("txtPhone")).sendKeys("1123456789");
 		driver.findElement(By.xpath("//button[@type='submit']")).click();
-		Assert.assertEquals(driver.findElement(By.id("txtPhone")).getText(), "Số điện thoại bắt đầu bằng: 09 - 03 - 012 - 016 - 018 - 019");
+		Assert.assertEquals(driver.findElement(By.id("txtPhone-error")).getText(), "Số điện thoại bắt đầu bằng: 09 - 03 - 012 - 016 - 018 - 019");
 		
 	}
 	
