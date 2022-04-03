@@ -9,7 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-public class Topic_04_Xpath_part2 {
+public class Topic_04_Xpath_register {
 	WebDriver driver;
 	String projectPath = System.getProperty("user.dir");
 	
