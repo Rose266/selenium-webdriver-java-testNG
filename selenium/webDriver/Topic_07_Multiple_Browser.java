@@ -15,7 +15,11 @@ public class Topic_07_Multiple_Browser {
 	
 	@BeforeClass
 	public void beforeClass() {
+		// Executable File chormedriver/ geckodriver/ edgedriver/...
+		// Muốn chạy thì phải có executable file
 		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
+		
+		// Class Firefoxdriver/ ChromeDriver/ EdgeDriver/ Safari Driver..
 		driver = new FirefoxDriver();
 		driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
 		driver.manage().window().maximize();

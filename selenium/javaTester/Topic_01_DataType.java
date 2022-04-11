@@ -45,20 +45,20 @@ public class Topic_01_DataType {
 		// char a='B';
 		
 		// II- Tham chiếu (Reference)
-		// Array: mã- tập hợp nhiều giá trị của 1 kiểu dữ liệu nào đó, 
+		// 1 Array: mã- tập hợp nhiều giá trị của 1 kiểu dữ liệu nào đó, 
 		// Array: Enables storing collection of multiple items under a single variable name
 		// int [] studentNumber = { 15,20,-7,50 };
-		// String [] studentName = {"Nguyễn Thu Linh","Nguyễn Minh Thúy"};
+		// 2 String [] studentName = {"Nguyễn Thu Linh","Nguyễn Minh Thúy"};
 		
-		// Interface/Class
+		// 3 Interface/Class
 		// WebDriver driver = new ChromeDriver();//Interface
 		
 		// Actions action = new Actions(driver);// Class
 		
-		// Collection: List(ArrayList/ LinkedList)/ Set/ Queue
+		// 4 Collection: List(ArrayList/ LinkedList)/ Set/ Queue
 		// ArrayList<String> studentCountry = new ArrayList<String>();
 		
-		// Object - có thể ép qua những kiểu dữ liệu khác được
+		// 5 Object - có thể ép qua những kiểu dữ liệu khác được
 		Object phone;
 		
 		
