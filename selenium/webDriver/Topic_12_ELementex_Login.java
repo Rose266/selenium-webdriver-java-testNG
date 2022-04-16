@@ -31,7 +31,7 @@ public class Topic_12_ELementex_Login {
 		lastName = "Nguyen";
 		fullName = firstName + " " + lastName;
 		emailAddress = "nguyenthihongnhung" + generateRandomNumber() + "@gmail.com";
-		
+		password = "123456";
 	}
 	@BeforeMethod
 	public void beforeMethod () {
@@ -49,22 +49,26 @@ public class Topic_12_ELementex_Login {
 	}
 	@Test
 	public void Login_02_With_Invalid_Email() {
+		driver.findElement(emailTextboxBy).clear();
+		driver.findElement(passwordTextboxBy).clear();
 		driver.findElement(emailTextboxBy).sendKeys("1234512345@1234.1234");
 		driver.findElement(passwordTextboxBy).sendKeys("123456");
 		driver.findElement(By.xpath("//button[@title='Login']")).click();
-		Assert.assertEquals(driver.findElement(emailTextBoxErrorBy), "Please enter a valid email address. For example johndoe@domain.com.");
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@id='advice-validate-email-email']")).getText(), "Please enter a valid email address. For example johndoe@domain.com.");
 		
 	}
 	@Test
 	public void Login_03_With_Password_Less_Than_6_Characters() {
+		driver.findElement(emailTextboxBy).clear();
+		driver.findElement(passwordTextboxBy).clear();
 		driver.findElement(emailTextboxBy).sendKeys("nguyenthinhung@gmail.com");
 		driver.findElement(passwordTextboxBy).sendKeys("1234");
 		driver.findElement(By.xpath("//button[@title='Login']")).click();
-		Assert.assertEquals(driver.findElement(passwordTextboxErrorBy).getText(), "Please enter 6 or more characters without leading or trailing spaces.");
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@id='advice-validate-password-pass']")).getText(), "Please enter 6 or more characters without leading or trailing spaces.");
 		
 	}
 	@Test
-	public void Create_04_A_New_Account() {
+	public void Login_Create_04_A_New_Account() {
 		driver.findElement(By.xpath("//span[text() = 'Create an Account']")).click();
 		driver.findElement(By.cssSelector("#firstname")).sendKeys(firstName);
 		driver.findElement(By.cssSelector("#lastname")).sendKeys(lastName);
@@ -75,7 +79,7 @@ public class Topic_12_ELementex_Login {
 		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(), "Thank you for registering with Main Website Store.");
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='page-title']/h1")).getText(), "MY DASHBOARD");
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='welcome-msg']//strong")).getText(), "Hello, " + fullName +"!");
-		String contactInformationText = driver.findElement(By.xpath("//div[@class='welcome-msg']/p")).getText();
+		String contactInformationText = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div[@class='box-title']/following-sibling::div[@class='box-content']")).getText();
 		Assert.assertTrue(contactInformationText.contains(fullName));
 		Assert.assertTrue(contactInformationText.contains(emailAddress));
 		driver.findElement(By.xpath("//header[@id='header']//span[text()='Account']")).click();
@@ -94,6 +98,8 @@ public class Topic_12_ELementex_Login {
 	}
 	@Test
 	public void Login_06_With_Incorrect_Password() {
+		driver.findElement(emailTextboxBy).clear();
+		driver.findElement(passwordTextboxBy).clear();
 		driver.findElement(emailTextboxBy).sendKeys(emailAddress);
 		driver.findElement(passwordTextboxBy).sendKeys("123458900");
 		driver.findElement(By.xpath("//button[@title='Login']")).click();
@@ -101,10 +107,13 @@ public class Topic_12_ELementex_Login {
 	}
 	@Test
 	public void Login_07_With_Valid_Email_And_Password() {
+		driver.findElement(emailTextboxBy).clear();
+		driver.findElement(passwordTextboxBy).clear();
 		driver.findElement(emailTextboxBy).sendKeys(emailAddress);
 		driver.findElement(passwordTextboxBy).sendKeys(password);
 		driver.findElement(By.xpath("//button[@title='Login']")).click();
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='page-title']/h1")), "MY DASHBOARD");
+		
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='page-title']/h1[text()='My Dashboard']")).getText(),"MY DASHBOARD");
 		Assert.assertEquals(driver.findElement(By.xpath("")), "Hello, " + fullName +"!");
 		String contactInformationText = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();
 		Assert.assertTrue(contactInformationText.contains(fullName));
@@ -115,6 +124,11 @@ public class Topic_12_ELementex_Login {
 		driver.quit();
 	}
 	public void sleepInSecond(long second) {
+		try {
+			Thread.sleep(second * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		
 	}
 	public int generateRandomNumber() {

@@ -38,10 +38,11 @@ public class Topic_11_Elementex_Register {
 	@BeforeMethod
 	public void beforeMethod () {
 		driver.get("https://alada.vn/tai-khoan/dang-ky.html");
-		driver.findElement(By.xpath("//button[@type='submit']"));
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
 	}
 	@Test
 	public void Register_01_With_Empty_Data () {
+		
 		Assert.assertEquals(driver.findElement(fullNameErrorBy).getText(), "Vui lòng nhập họ tên");
 		Assert.assertEquals(driver.findElement(emailAddressErrorBy).getText(), "Vui lòng nhập email");
 		Assert.assertEquals(driver.findElement(confirmEmailAddressErrorBy).getText(), "Vui lòng nhập lại địa chỉ email");
@@ -57,7 +58,7 @@ public class Topic_11_Elementex_Register {
 		driver.findElement(passwordBy).sendKeys("123456");
 		driver.findElement(confirmPasswordBy).sendKeys("123456");
 		driver.findElement(telephoneNumberBy).sendKeys("0123456789");
-		Assert.assertEquals(driver.findElement(emailAddressErrorBy), "Vui lòng nhập email hợp lệ");
+		Assert.assertEquals(driver.findElement(emailAddressErrorBy).getText(), "Vui lòng nhập email hợp lệ");
 		Assert.assertEquals(driver.findElement(confirmEmailAddressErrorBy).getText(), "Vui lòng nhập email hợp lệ");
 		
 	}
@@ -80,7 +81,7 @@ public class Topic_11_Elementex_Register {
 		driver.findElement(passwordBy).sendKeys("12345");
 		driver.findElement(confirmPasswordBy).sendKeys("12345");
 		driver.findElement(telephoneNumberBy).sendKeys("0123456789");
-		Assert.assertEquals(driver.findElement(passwordErrorBy), "Mật khẩu phải có ít nhất 6 ký tự");
+		Assert.assertEquals(driver.findElement(passwordErrorBy).getText(), "Mật khẩu phải có ít nhất 6 ký tự");
 		Assert.assertEquals(driver.findElement(confirmPasswordErrorBy).getText(), "Mật khẩu phải có ít nhất 6 ký tự");
 	}
 	@Test
@@ -102,7 +103,7 @@ public class Topic_11_Elementex_Register {
 		driver.findElement(passwordBy).sendKeys("Nhung123");
 		driver.findElement(confirmPasswordBy).sendKeys("Nhung123");
 		driver.findElement(telephoneNumberBy).sendKeys("0123456");
-		Assert.assertEquals(driver.findElement(telephoneNumberBy).getText(), "Số điện thoại phải từ 10-11 số. ");
+		Assert.assertEquals(driver.findElement(telephoneNumberErrorBy).getText(), "Số điện thoại phải từ 10-11 số.");
 		
 	}
 	@AfterClass

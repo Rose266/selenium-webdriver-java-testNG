@@ -57,6 +57,7 @@ public class Topic_05_Xpath_login{
 		driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
 		driver.findElement(By.id("email")).sendKeys("nguyennhung@gmail.com");
 		driver.findElement(By.id("pass")).sendKeys("12345");
+		driver.findElement(By.xpath("//button[@title='Login']")).click();
 		Assert.assertEquals(driver.findElement(By.id("advice-validate-password-pass")).getText(), "Please enter 6 or more characters without leading or trailing spaces.");
 	}
 	@Test
@@ -65,20 +66,21 @@ public class Topic_05_Xpath_login{
 		driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
 		driver.findElement(By.id("email")).sendKeys("nguyenthihongnhung9966@gmail.com");
 		driver.findElement(By.id("pass")).sendKeys("fgh1234");
+		driver.findElement(By.xpath("//button[@title='Login']")).click();
 		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='error-msg']//span")).getText(), "Invalid login or password.");
 	}
 	@Test
 	public void TC_05_Create_A_New_Account() {
 		driver.get("http://live.techpanda.org/");
-		driver.findElement(By.cssSelector(".footer a[title='My Account']")).click();
-		driver.findElement(By.xpath("span[text()='Create an Account']")).click();
+		driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
+		driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
 		driver.findElement(By.id("firstname")).sendKeys(firstName);
 		driver.findElement(By.id("lastname")).sendKeys(lastName);
 		driver.findElement(By.id("email_address")).sendKeys(emailAddress);
 		driver.findElement(By.id("password")).sendKeys(passWord);
 		driver.findElement(By.id("confirmation")).sendKeys(passWord);
 		driver.findElement(By.cssSelector("button[title='Register']")).click();
-		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")), "Thank you for registering with Main Website Store");
+		Assert.assertEquals(driver.findElement(By.xpath("//li[@class='success-msg']//span")).getText(), "Thank you for registering with Main Website Store.");
 		String contactInforText = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div[@class='box-title']/following-sibling::div/p")).getText();
 		Assert.assertTrue(contactInforText.contains(fullName));
 		Assert.assertTrue(contactInforText.contains(emailAddress));
@@ -86,8 +88,10 @@ public class Topic_05_Xpath_login{
 	}
 	@Test
 	public void TC_06_Login_With_Valid_Email_And_Password() {
+		driver.get("http://live.techpanda.org/");
 		driver.findElement(By.xpath("//header[@id='header']//span[text()='Account']")).click();
 		driver.findElement(By.xpath("//a[text()='Log Out']")).click();
+		driver.findElement(By.xpath("//div[@class='footer']//a[text()='My Account']")).click();
 		driver.findElement(By.id("email")).sendKeys(emailAddress);
 		driver.findElement(By.id("pass")).sendKeys(passWord);
 		driver.findElement(By.cssSelector("button[title='Login']")).click();
