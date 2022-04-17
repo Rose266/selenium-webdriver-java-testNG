@@ -112,9 +112,8 @@ public class Topic_12_ELementex_Login {
 		driver.findElement(emailTextboxBy).sendKeys(emailAddress);
 		driver.findElement(passwordTextboxBy).sendKeys(password);
 		driver.findElement(By.xpath("//button[@title='Login']")).click();
-		
-		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='page-title']/h1[text()='My Dashboard']")).getText(),"MY DASHBOARD");
-		Assert.assertEquals(driver.findElement(By.xpath("")), "Hello, " + fullName +"!");
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='page-title']/h1")).getText(),"MY DASHBOARD");
+		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='welcome-msg']//strong")).getText(), "Hello, " + fullName +"!");
 		String contactInformationText = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();
 		Assert.assertTrue(contactInformationText.contains(fullName));
 		Assert.assertTrue(contactInformationText.contains(emailAddress));
