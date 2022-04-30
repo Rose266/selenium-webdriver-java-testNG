@@ -15,8 +15,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import net.bytebuddy.asm.Advice.Argument;
-
 public class Topic_15_Handle_Textbox_TextArea {
 	WebDriver driver;
 	JavascriptExecutor jsExecutor;
@@ -29,65 +27,75 @@ public class Topic_15_Handle_Textbox_TextArea {
 		jsExecutor = (JavascriptExecutor) driver;
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
-		
 	}
+	
 	@Test
 	public void TC_01() {
+		
 		driver.get("http://demo.guru99.com/v4");
+		driver.findElement(By.xpath("//a[text()='here']")).click();
+		SleepInSecond(5);
+		String email = "trankieuhuong" + generateRandomNumber() + "@gmail.com";
+		driver.findElement(By.name("emailid")).sendKeys(email);
+		driver.findElement(By.name("btnLogin")).click();
+		SleepInSecond(5);
+		String userID= driver.findElement(By.xpath("//td[text()='User ID :']/following-sibling::td")).getText();
+		String pass = driver.findElement(By.xpath("//td[text()='Password :']/following-sibling::td")).getText();
+		driver.get("http://demo.guru99.com/v4");
+		SleepInSecond(5);
+		driver.findElement(By.xpath("//input[@name='uid']")).sendKeys(userID);
+		driver.findElement(By.xpath("//input[@name='password']")).sendKeys(pass);
+		driver.findElement(By.name("btnLogin")).click();
+		SleepInSecond(5);
+		driver.findElement(By.cssSelector("tr.heading3>td")).getText();
+		Assert.assertEquals(driver.findElement(By.cssSelector("tr.heading3>td")).getText(), "Manger Id : " + userID);
+		driver.findElement(By.xpath("//a[text()='New Customer']")).click();
+		SleepInSecond(30);
 		String customerName = "Nhung";
 		String inputDateOfBirth = "06261996";
-		String outputDateOfBirth = "1996-06-26";
 		String inputAddress = "Home\nLazy Street";
-		String outputAddress = "Home Lazy street";
 		String city = "Ha Noi";
 		String state = "Cau Giay";
 		String pin = "123456";
 		String mobileNumber = "0888888888";
-		String email = "trankieuhuong" + generateRandomNumber() + "@gmail.com";
 		String passWord = "Huo666";
+	
+		driver.findElement(By.xpath("//input[@name='name']")).sendKeys(customerName);
+		driver.findElement(By.xpath("//input[@value='f']")).click();
+		WebElement dateOfBirthTextBox = driver.findElement(By.xpath("//input[@id='dob']"));
+		jsExecutor.executeScript("arguments[0] removeAttribute('disabled')", dateOfBirthTextBox);
+		dateOfBirthTextBox.sendKeys(inputDateOfBirth);
+		driver.findElement(By.cssSelector("textarea[name='addr']")).sendKeys(inputAddress);
+		
+		driver.findElement(By.cssSelector("input[name='city']")).sendKeys(city);
+		
+		driver.findElement(By.cssSelector("input[name='state']")).sendKeys(state);
+		
+		driver.findElement(By.cssSelector("input[name='pinno']")).sendKeys(pin);
+		driver.findElement(By.cssSelector("input[name='telephoneno']")).sendKeys(mobileNumber);
+		driver.findElement(By.cssSelector("input[name='emailid']")).sendKeys(email);
+		driver.findElement(By.cssSelector("input[name='password']")).sendKeys(passWord);
+		driver.findElement(By.cssSelector("input[name='sub']")).click();
+		driver.findElement(By.xpath("//td[text()='Customer ID']/following-sibling::td")).getText();
+		String idNumber = driver.findElement(By.xpath("//td[text()='Customer ID']/following-sibling::td")).getText();
+		Assert.assertEquals(driver.findElement(By.xpath("//td[text()='Customer ID']/following-sibling::td")).getText(), idNumber);
 		By customerNameBy = By.xpath("//input[@name='name']");
 		By genderBy = By.xpath("//input[@value='f']");
-		
 		By dateOfBirthBy = By.xpath("//input[@id='dob']");
 		By addressBy = By.cssSelector("textarea[name='addr']");
 		By cityBy = By.cssSelector("input[name='city']");
-		By stateBy = By.cssSelector("input[name='city']");
+		By stateBy = By.cssSelector("input[name='state']");
 		By pinBy = By.cssSelector("input[name='pinno']");
 		By mobileNumberBy = By.cssSelector("input[name='telephoneno']");
 		By emailBy = By.cssSelector("input[name='emailid']");
-		By passwordBy = By.cssSelector("input[name='password']");
 		By CustomerIDBy = By.xpath("//td[text()='Customer ID']/following-sibling::td");
-		String idNumber = driver.findElement(CustomerIDBy).getText();
-		driver.findElement(By.xpath("//a[text()='here']")).click();
-		driver.findElement(By.name("emailid")).sendKeys(email);
-		driver.findElement(By.name("btnLogin")).click();
-		String userID= driver.findElement(By.xpath("//td[text()='User ID :']/following-sibling::td")).getText();
-		String pass = driver.findElement(By.xpath("//td[text()='Password :']/following-sibling::td")).getText();
-		driver.get("http://demo.guru99.com/v4");
-		driver.findElement(By.xpath("//input[@name='uid']")).sendKeys(userID);
-		driver.findElement(By.xpath("//")).sendKeys(pass);
-		driver.findElement(By.name("btnLogin")).click();
-		Assert.assertEquals(driver.findElement(By.cssSelector("driver.findElement(By.name(\"btnLogin\")).click();")), "Manger Id : " + userID);
-		driver.findElement(By.xpath("//a[text()='New Customer']")).click();
-		
-		driver.findElement(customerNameBy).sendKeys(customerName);
-		driver.findElement(genderBy).click();
-		WebElement dateOfBirthTextBox = driver.findElement(dateOfBirthBy);
-		jsExecutor.executeScript("arguments[0] removeAttribute('disabled')", dateOfBirthTextBox);
-		dateOfBirthTextBox.sendKeys(inputDateOfBirth);
-		driver.findElement(addressBy).sendKeys(inputAddress);
-		driver.findElement(cityBy).sendKeys(city);
-		driver.findElement(stateBy).sendKeys(state);
-		driver.findElement(pinBy).sendKeys(pin);
-		driver.findElement(mobileNumberBy).sendKeys(mobileNumber);
-		driver.findElement(emailBy).sendKeys(email);
-		driver.findElement(passwordBy).sendKeys(passWord);
-		driver.findElement(By.cssSelector("input[name='sub']")).click();
-		driver.findElement(CustomerIDBy).getText();
-		Assert.assertEquals(driver.findElement(CustomerIDBy).getText(), idNumber);
+
+
 		Assert.assertEquals(driver.findElement(customerNameBy).getText(), customerName);
 		Assert.assertTrue(driver.findElement(genderBy).isSelected());
+		String outputDateOfBirth = "1996-06-26";
 		Assert.assertEquals(driver.findElement(dateOfBirthBy).getText(),outputDateOfBirth);
+		String outputAddress = "Home Lazy street";
 		Assert.assertEquals(driver.findElement(addressBy), outputAddress);
 		Assert.assertEquals(driver.findElement(cityBy), city);
 		Assert.assertEquals(driver.findElement(stateBy), state);
