@@ -2,24 +2,31 @@ package webDriver;
 
 import static org.testng.Assert.assertTrue;
 
-import java.awt.image.PixelGrabber;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import net.bytebuddy.asm.Advice.Argument;
+
 public class Topic_15_Handle_Textbox_TextArea {
 	WebDriver driver;
+	JavascriptExecutor jsExecutor;
 	String projectPath = System.getProperty("user.dir");
+	
 	@BeforeClass
 	public void beforeClass () {
 		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
 		driver = new FirefoxDriver ();
+		jsExecutor = (JavascriptExecutor) driver;
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 		
@@ -27,20 +34,20 @@ public class Topic_15_Handle_Textbox_TextArea {
 	@Test
 	public void TC_01() {
 		driver.get("http://demo.guru99.com/v4");
-		driver.findElement(By.xpath("//input[@name='uid']")).sendKeys("mngr399297");
-		driver.findElement(By.xpath("//")).sendKeys("hujYtEj");
-		driver.findElement(By.xpath("//a[text()='New Customer']")).click();
 		String customerName = "Nhung";
-		String dateOfBirth = "06261996";
-		String address = "Home\nLazy Street";
+		String inputDateOfBirth = "06261996";
+		String outputDateOfBirth = "1996-06-26";
+		String inputAddress = "Home\nLazy Street";
+		String outputAddress = "Home Lazy street";
 		String city = "Ha Noi";
 		String state = "Cau Giay";
 		String pin = "123456";
 		String mobileNumber = "0888888888";
-		String email = "nguyenkieuhuong@gmail.com";
+		String email = "trankieuhuong" + generateRandomNumber() + "@gmail.com";
 		String passWord = "Huo666";
 		By customerNameBy = By.xpath("//input[@name='name']");
 		By genderBy = By.xpath("//input[@value='f']");
+		
 		By dateOfBirthBy = By.xpath("//input[@id='dob']");
 		By addressBy = By.cssSelector("textarea[name='addr']");
 		By cityBy = By.cssSelector("input[name='city']");
@@ -50,10 +57,25 @@ public class Topic_15_Handle_Textbox_TextArea {
 		By emailBy = By.cssSelector("input[name='emailid']");
 		By passwordBy = By.cssSelector("input[name='password']");
 		By CustomerIDBy = By.xpath("//td[text()='Customer ID']/following-sibling::td");
+		String idNumber = driver.findElement(CustomerIDBy).getText();
+		driver.findElement(By.xpath("//a[text()='here']")).click();
+		driver.findElement(By.name("emailid")).sendKeys(email);
+		driver.findElement(By.name("btnLogin")).click();
+		String userID= driver.findElement(By.xpath("//td[text()='User ID :']/following-sibling::td")).getText();
+		String pass = driver.findElement(By.xpath("//td[text()='Password :']/following-sibling::td")).getText();
+		driver.get("http://demo.guru99.com/v4");
+		driver.findElement(By.xpath("//input[@name='uid']")).sendKeys(userID);
+		driver.findElement(By.xpath("//")).sendKeys(pass);
+		driver.findElement(By.name("btnLogin")).click();
+		Assert.assertEquals(driver.findElement(By.cssSelector("driver.findElement(By.name(\"btnLogin\")).click();")), "Manger Id : " + userID);
+		driver.findElement(By.xpath("//a[text()='New Customer']")).click();
+		
 		driver.findElement(customerNameBy).sendKeys(customerName);
 		driver.findElement(genderBy).click();
-		driver.findElement(dateOfBirthBy).sendKeys(dateOfBirth);
-		driver.findElement(addressBy).sendKeys(address);
+		WebElement dateOfBirthTextBox = driver.findElement(dateOfBirthBy);
+		jsExecutor.executeScript("arguments[0] removeAttribute('disabled')", dateOfBirthTextBox);
+		dateOfBirthTextBox.sendKeys(inputDateOfBirth);
+		driver.findElement(addressBy).sendKeys(inputAddress);
 		driver.findElement(cityBy).sendKeys(city);
 		driver.findElement(stateBy).sendKeys(state);
 		driver.findElement(pinBy).sendKeys(pin);
@@ -62,25 +84,19 @@ public class Topic_15_Handle_Textbox_TextArea {
 		driver.findElement(passwordBy).sendKeys(passWord);
 		driver.findElement(By.cssSelector("input[name='sub']")).click();
 		driver.findElement(CustomerIDBy).getText();
-		Assert.assertEquals(driver.findElement(CustomerIDBy).getText(), "18228");
+		Assert.assertEquals(driver.findElement(CustomerIDBy).getText(), idNumber);
 		Assert.assertEquals(driver.findElement(customerNameBy).getText(), customerName);
 		Assert.assertTrue(driver.findElement(genderBy).isSelected());
-		Assert.assertEquals(driver.findElement(dateOfBirthBy).getText(),dateOfBirth);
-		Assert.assertEquals(driver.findElement(addressBy), address);
+		Assert.assertEquals(driver.findElement(dateOfBirthBy).getText(),outputDateOfBirth);
+		Assert.assertEquals(driver.findElement(addressBy), outputAddress);
 		Assert.assertEquals(driver.findElement(cityBy), city);
 		Assert.assertEquals(driver.findElement(stateBy), state);
 		Assert.assertEquals(driver.findElement(pinBy), pin);
 		Assert.assertEquals(driver.findElement(mobileNumberBy), mobileNumber);
 		Assert.assertEquals(driver.findElement(emailBy), email);
-		driver.findElement(By.xpath("//a[text()='Edit Customer']")).click();
-		driver.findElement(By.cssSelector("input[name='cusid']")).sendKeys("18228");
-		
-		
-		
-;
 		
 	}
-	@Test 
+	//@Test 
 	public void TC_02 () {
 		driver.get("https://opensource-demo.orangehrmlive.com/");
 		driver.findElement(By.xpath("//input[@id='txtUsername']")).sendKeys("Admin");
@@ -134,21 +150,18 @@ public class Topic_15_Handle_Textbox_TextArea {
 		
 		
 	}
-	@Test
-	public void TC_03() {
-		
-	}
-	@Test
-	public void TC_04 () {
-		
-	}
+	
 	@AfterClass
 	public void afterClass () {
 		driver.quit();
 	}
-	public void SleepInSecond (long second) {
+	public int generateRandomNumber () {
+		Random rand = new Random();
+		return rand.nextInt(9999);
+	}
+	public void SleepInSecond (long timeInSecond) {
 		try {
-		Thread.sleep(second * 1000);
+		Thread.sleep(timeInSecond * 1000);
 	} catch (InterruptedException e) {
 		e.printStackTrace();
 	}

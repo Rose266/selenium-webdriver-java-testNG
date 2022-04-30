@@ -30,6 +30,7 @@ public class Topic_13_WebBrowser_Exercise {
 		Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/login/");
 		driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
 		Assert.assertEquals(driver.getCurrentUrl(), "http://live.techpanda.org/index.php/customer/account/create/");
+		
 	}
 	@Test
 	public void Verify_02_Title() {
@@ -50,13 +51,20 @@ public class Topic_13_WebBrowser_Exercise {
 	}
 	@Test
 	public void Get_04_Page_Source_code() {
-		Assert.assertEquals(driver.getPageSource().contains("Login or Create an Account"), "Login or Create an Account");
+		Assert.assertTrue(driver.getPageSource().contains("Login or Create an Account"));
 		driver.findElement(By.xpath("//a[@title='Create an Account']")).click();
-		Assert.assertEquals(driver.getPageSource().contains("Create an Account"), "Create an Account");
+		Assert.assertTrue(driver.getPageSource().contains("Create an Account"));
 	}
 	@AfterClass
 	public void afterClass () {
 		driver.quit();
+	}
+	public void sleepInSecond(long timeInSecond) {
+		try {
+			Thread.sleep(timeInSecond * 1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 	}
 		
 }

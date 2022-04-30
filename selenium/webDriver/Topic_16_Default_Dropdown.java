@@ -93,7 +93,7 @@ public class Topic_16_Default_Dropdown {
 		select = new Select(driver.findElement(By.cssSelector("select[name='DateOfBirthMonth']")));
 		select.selectByVisibleText(dateOfBirthMonth);
 		List<WebElement> dateOfBirthMonthValue = select.getOptions();
-		Assert.assertEquals(dateOfBirthMonthValue.size(), "13");
+		Assert.assertEquals(dateOfBirthMonthValue.size(), 13);
 		select = new Select(driver.findElement(By.cssSelector("select[name='DateOfBirthYear']")));
 		select.selectByVisibleText(dateOfBirthMonth);
 		List<WebElement> dateOfBirthYearValue = select.getOptions();
@@ -120,9 +120,9 @@ public class Topic_16_Default_Dropdown {
 	public void afterClass () {
 		driver.quit();
 	}
-	public void sleepInSecond (long second) {
+	public void sleepInSecond (long timeInSecond) {
 		try {
-			Thread.sleep(second *1000);
+			Thread.sleep(timeInSecond *1000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
