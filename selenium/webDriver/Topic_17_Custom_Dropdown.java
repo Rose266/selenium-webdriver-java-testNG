@@ -54,41 +54,7 @@ public class Topic_17_Custom_Dropdown {
 		Assert.assertEquals(driver.findElement(By.cssSelector("span#number-button>span.ui-selectmenu-text")).getText(), "3");
 		
 	}
-	public void  selectItemCustomDropdownList(String parentLocator, String childLocator, String expectedTextItem){
-		// parent: thường là toggle để khi ấn vào hiện dropdownlist
-		// child: thẻ chứa text
-		// expected item: sau khi chọn text thẻ chứa giá trị hiển thị sau khi chọn tại dropdown
-		//- Step 1: Click vào 1 element cho nó sổ ra hết các item
-			driver.findElement(By.cssSelector(parentLocator)).click();
-			sleepInSecond(5);
-		//- Step 2: Chờ các item load hết ra thành công
-		// Lưu ý 1: Locator chứa hêt tất cả các item
-		// Lưu ý 2: Locator phải đến node cuối cùng chứa text
-		// Wait nhận tham số là By 
-			explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(childLocator)));
-		//- Step 3: Tìm item càn chọn
-		// Lấy hết tất cả các element (item) ra sau đó duyệt qua từng item
-			List<WebElement> allItems = driver.findElements(By.cssSelector(childLocator));
-			
-		// Duyệt qua từng item getText của item ra
-		// Nếu Text = item mình mong muốn (item cần click vào)	
-		//  + B1: Nếu item cần chọn nằm trong vùng nhìn thây thì không cần scroll tới element tìm tiếp 
-		//	+ B2: Nếu item cần chọn nằm ở dưới thì scroll tới  item đó
-		// Click vào item đó
-		// Thoát khỏi vòng lặp không có kiểm tra item tiếp theo nữa
-			for(WebElement item : allItems) {
-				String actualText = item.getText();
-				System.out.println("Actual Text = " + actualText);
-				if(actualText.equals(expectedTextItem)) {
-					jsExecutor.executeScript("arguments[0].scrollIntoView(true)", item);
-					sleepInSecond(5);
-					item.click();
-					sleepInSecond(5);
-					break;
-				}
-			}
-		
-	}
+	
 	//@Test
 	public void TC_02_ReactJS() {
 		driver.get("https://react.semantic-ui.com/maximize/dropdown-example-selection/");
@@ -105,14 +71,14 @@ public class Topic_17_Custom_Dropdown {
 	public void TC_04_Angular() {
 		driver.get("https://tiemchungcovid19.gov.vn/portal/register-person");
 		//C1: Text khong nam o HTML
-		selectItemCustomDropdownList("ng-select[bindvalue='provinceCode'] span.ng-arrow-wrapper","div[role='option']>span.ng-option-label", "Tỉnh Tuyên Quang");
+		selectItemCustomDropdownList("ng-select[bindvalue='provinceCode']","div[role='option']>span.ng-option-label", "Tỉnh Tuyên Quang");
 		String actualText = (String) jsExecutor.executeScript("return document.querySelector(\"ng-select[bindvalue='provinceCode'] span.ng-value-label\").innerText");
 		Assert.assertEquals(actualText, "Tỉnh Tuyên Quang");
 		// C2: 
-		selectItemCustomDropdownList("ng-select[bindvalue='provinceCode'] span.ng-arrow-wrapper","div[role='option']>span.ng-option-label", "Tỉnh Tuyên Quang");
+		selectItemCustomDropdownList("ng-select[bindvalue='provinceCode']","div[role='option']>span.ng-option-label", "Tỉnh Tuyên Quang");
 		Assert.assertEquals(driver.findElement(By.cssSelector("ng-select[bindvalue='provinceCode'] span.ng-value-label")).getText(), "Tỉnh Tuyên Quang");
 		// C3: 
-		selectItemCustomDropdownList("ng-select[bindvalue='provinceCode'] span.ng-arrow-wrapper","div[role='option']>span.ng-option-label", "Tỉnh Tuyên Quang");
+		selectItemCustomDropdownList("ng-select[bindvalue='provinceCode']","div[role='option']>span.ng-option-label", "Tỉnh Tuyên Quang");
 		Assert.assertEquals(driver.findElement(By.cssSelector("ng-select[bindvalue='provinceCode'] span.ng-value-label")).getAttribute("innerText"), "Tỉnh Tuyên Quang");
 		
 		
@@ -147,6 +113,41 @@ public class Topic_17_Custom_Dropdown {
 	@AfterClass
 	public void afterClass() {
 		driver.quit();
+	}
+	public void  selectItemCustomDropdownList(String parentLocator, String childLocator, String expectedTextItem){
+		// parent: thường là toggle để khi ấn vào hiện dropdownlist
+		// child: thẻ chứa text
+		// expected item: sau khi chọn text thẻ chứa giá trị hiển thị sau khi chọn tại dropdown
+		//- Step 1: Click vào 1 element cho nó sổ ra hết các item
+			driver.findElement(By.cssSelector(parentLocator)).click();
+			sleepInSecond(5);
+		//- Step 2: Chờ các item load hết ra thành công
+		// Lưu ý 1: Locator chứa hêt tất cả các item
+		// Lưu ý 2: Locator phải đến node cuối cùng chứa text
+		// Wait nhận tham số là By 
+			explicitWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.cssSelector(childLocator)));
+		//- Step 3: Tìm item càn chọn
+		// Lấy hết tất cả các element (item) ra sau đó duyệt qua từng item
+			List<WebElement> allItems = driver.findElements(By.cssSelector(childLocator));
+			
+		// Duyệt qua từng item getText của item ra
+		// Nếu Text = item mình mong muốn (item cần click vào)	
+		//  + B1: Nếu item cần chọn nằm trong vùng nhìn thây thì không cần scroll tới element tìm tiếp 
+		//	+ B2: Nếu item cần chọn nằm ở dưới thì scroll tới  item đó
+		// Click vào item đó
+		// Thoát khỏi vòng lặp không có kiểm tra item tiếp theo nữa
+			for(WebElement item : allItems) {
+				String actualText = item.getText();
+				System.out.println("Actual Text = " + actualText);
+				if(actualText.equals(expectedTextItem)) {
+					jsExecutor.executeScript("arguments[0].scrollIntoView(true)", item);
+					sleepInSecond(5);
+					item.click();
+					sleepInSecond(5);
+					break;
+				}
+			}
+		
 	}
 
 	public void sleepInSecond(long second) {

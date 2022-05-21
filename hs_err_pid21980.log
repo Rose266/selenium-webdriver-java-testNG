@@ -1,0 +1,47 @@
+#
+# There is insufficient memory for the Java Runtime Environment to continue.
+# Native memory allocation (malloc) failed to allocate 177856 bytes for Chunk::new
+# Possible reasons:
+#   The system is out of physical RAM or swap space
+#   The process is running with CompressedOops enabled, and the Java Heap may be blocking the growth of the native heap
+# Possible solutions:
+#   Reduce memory load on the system
+#   Increase physical memory or swap space
+#   Check if swap backing store is full
+#   Decrease Java heap size (-Xmx/-Xms)
+#   Decrease number of Java threads
+#   Decrease Java thread stack sizes (-Xss)
+#   Set larger code cache with -XX:ReservedCodeCacheSize=
+#   JVM is running with Unscaled Compressed Oops mode in which the Java heap is
+#     placed in the first 4GB address space. The Java Heap base address is the
+#     maximum limit for the native heap growth. Please use -XX:HeapBaseMinAddress
+#     to set the Java Heap base and to place the Java Heap above 4GB virtual address.
+# This output file may be truncated or incomplete.
+#
+#  Out of Memory Error (./open/src/hotspot/share/memory/arena.cpp:197), pid=21980, tid=16344
+#
+# JRE version: Java(TM) SE Runtime Environment 18.9 (11.0.14+8) (build 11.0.14+8-LTS-263)
+# Java VM: Java HotSpot(TM) 64-Bit Server VM 18.9 (11.0.14+8-LTS-263, mixed mode, tiered, compressed oops, g1 gc, windows-amd64)
+# No core dump will be written. Minidumps are not enabled by default on client versions of Windows
+#
+
+---------------  S U M M A R Y ------------
+
+Command Line: -ea -Dfile.encoding=Cp1252 org.testng.remote.RemoteTestNG -serport 62954 -protocol json -d D:\Automation\01-Software\WebDriver\selenium-webdriver-java-testng\test-output C:\Users\Admin\AppData\Local\Temp\testng-eclipse-1378701989\testng-customsuite.xml
+
+Host: Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz, 4 cores, 7G,  Windows 10 , 64 bit Build 17763 (10.0.17763.1)
+Time: Tue May 17 04:55:02 2022 SE Asia Standard Time elapsed time: 6.926902 seconds (0d 0h 0m 6s)
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000015c2a7e8800):  JavaThread "C2 CompilerThread0" daemon [_thread_in_native, id=16344, stack(0x000000162d800000,0x000000162d900000)]
+
+
+Current CompileTask:
+C2:   6927 1627   !   4       org.openqa.selenium.json.Input::init (71 bytes)
+
+Stack: [0x000000162d800000,0x000000162d900000]
+[error occurred during error reporting (printing stack bounds), id 0xc00000fd, EXCEPTION_STACK_OVERFLOW (0xc00000fd) at pc=0x0000015c14790f2d]
+
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x6296da]

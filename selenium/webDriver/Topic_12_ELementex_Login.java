@@ -68,7 +68,7 @@ public class Topic_12_ELementex_Login {
 		
 	}
 	@Test
-	public void Login_Create_04_A_New_Account() {
+	public void Login_04_Create_A_New_Account() {
 		driver.findElement(By.xpath("//span[text() = 'Create an Account']")).click();
 		driver.findElement(By.cssSelector("#firstname")).sendKeys(firstName);
 		driver.findElement(By.cssSelector("#lastname")).sendKeys(lastName);
@@ -107,11 +107,13 @@ public class Topic_12_ELementex_Login {
 	}
 	@Test
 	public void Login_07_With_Valid_Email_And_Password() {
+		driver.get("http://live.techpanda.org/index.php/customer/account/login/");
 		driver.findElement(emailTextboxBy).clear();
 		driver.findElement(passwordTextboxBy).clear();
 		driver.findElement(emailTextboxBy).sendKeys(emailAddress);
 		driver.findElement(passwordTextboxBy).sendKeys(password);
 		driver.findElement(By.xpath("//button[@title='Login']")).click();
+		sleepInSecond(15);
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='page-title']/h1")).getText(),"MY DASHBOARD");
 		Assert.assertEquals(driver.findElement(By.xpath("//div[@class='welcome-msg']//strong")).getText(), "Hello, " + fullName +"!");
 		String contactInformationText = driver.findElement(By.xpath("//h3[text()='Contact Information']/parent::div/following-sibling::div/p")).getText();

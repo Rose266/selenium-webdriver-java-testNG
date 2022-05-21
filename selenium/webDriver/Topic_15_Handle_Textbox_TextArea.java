@@ -5,11 +5,18 @@ import static org.testng.Assert.assertTrue;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.UnexpectedAlertBehaviour;
+import org.openqa.selenium.UnhandledAlertException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -18,13 +25,18 @@ import org.testng.annotations.Test;
 public class Topic_15_Handle_Textbox_TextArea {
 	WebDriver driver;
 	JavascriptExecutor jsExecutor;
+	WebDriverWait explicitWait;
 	String projectPath = System.getProperty("user.dir");
 	
+	@SuppressWarnings("deprecation")
 	@BeforeClass
 	public void beforeClass () {
 		System.setProperty("webdriver.gecko.driver", projectPath + "\\browserDrivers\\geckodriver.exe");
-		driver = new FirefoxDriver ();
+		DesiredCapabilities dc = new DesiredCapabilities();
+		dc.setCapability(CapabilityType.UNEXPECTED_ALERT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
+		driver = new FirefoxDriver (dc);
 		jsExecutor = (JavascriptExecutor) driver;
+		explicitWait = new WebDriverWait (driver,10);
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		driver.manage().window().maximize();
 	}
@@ -52,18 +64,26 @@ public class Topic_15_Handle_Textbox_TextArea {
 		driver.findElement(By.xpath("//a[text()='New Customer']")).click();
 		SleepInSecond(30);
 		String customerName = "Nhung";
-		String inputDateOfBirth = "06261996";
+		String inputDateOfBirth = "06/26/1996";
 		String inputAddress = "Home\nLazy Street";
 		String city = "Ha Noi";
 		String state = "Cau Giay";
 		String pin = "123456";
 		String mobileNumber = "0888888888";
 		String passWord = "Huo666";
+		try {
+		    // Add a wait timeout before this statement to make 
+		    // sure you are not checking for the alert too soon.
+		    Alert alt = driver.switchTo().alert();
+		    alt.accept();
+		} catch(NoAlertPresentException noe) {
+		    // No alert found on page, proceed with test.
+		}
 	
 		driver.findElement(By.xpath("//input[@name='name']")).sendKeys(customerName);
 		driver.findElement(By.xpath("//input[@value='f']")).click();
 		WebElement dateOfBirthTextBox = driver.findElement(By.xpath("//input[@id='dob']"));
-		jsExecutor.executeScript("arguments[0] removeAttribute('disabled')", dateOfBirthTextBox);
+		jsExecutor.executeScript("arguments[0].removeAttribute('disabled')", dateOfBirthTextBox);
 		dateOfBirthTextBox.sendKeys(inputDateOfBirth);
 		driver.findElement(By.cssSelector("textarea[name='addr']")).sendKeys(inputAddress);
 		
