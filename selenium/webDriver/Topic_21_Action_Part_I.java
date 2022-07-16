@@ -1,8 +1,13 @@
 package webDriver;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -13,7 +18,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.Color;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -160,8 +164,27 @@ public class Topic_21_Action_Part_I {
 		Assert.assertEquals(bigCircle.getText(), "You did great!");
 		Assert.assertEquals(Color.fromString(bigCirleColorRbg).asHex().toLowerCase(), "#03a9f4");
 	}
-	@Test
-	public void Tc_09_Drag_And_Drop_HTML5() {
+	//@Test
+	public void Tc_09_Drag_And_Drop_HTML5 () throws IOException {
+		driver.get("https://automationfc.github.io/drag-drop-html5/");
+		
+		// Hàm import vào chỉ sử dụng css vì có jquery
+		// drag_and_drop_helper.js Hàm để giả lập hành vi kéo thả trên web dùng code jquery
+		// jquery_load_helper.js nếu như web app đang sử dụng chưa dùng thư viện jquery thì nó sẽ inject vào app này được
+		String squareA = "#column-a";
+		String squareB = "#column-b";
+		String dragAndDropHelperContent = getContentFile(projectPath + "\\dragAndDrop\\drag_and_drop_helper.js");
+		dragAndDropHelperContent = dragAndDropHelperContent + "$(\"" + squareA + "\").simulateDragDrop({dropTarget: \"" + squareB + "\"});";
+		jsExecutor.executeScript(dragAndDropHelperContent);
+		sleepInSecond(3);
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='column-b']/header[text()='A']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='column-a']/header[text()='B']")).isDisplayed());
+		
+		jsExecutor.executeScript(dragAndDropHelperContent);
+		sleepInSecond(3);
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='column-a']/header[text()='A']")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.xpath("//div[@id='column-b']/header[text()='B']")).isDisplayed());
+
 		
 		
 	}
@@ -175,6 +198,22 @@ public class Topic_21_Action_Part_I {
 			Thread.sleep(second*1000);
 		}catch(InterruptedException e) {
 			e.printStackTrace();
+		}
+	}
+	public String getContentFile(String filePath) throws IOException {
+		Charset cs = Charset.forName("UTF-8");
+		FileInputStream stream = new FileInputStream(filePath);
+		try {
+			Reader reader = new BufferedReader(new InputStreamReader(stream, cs));
+			StringBuilder builder = new StringBuilder();
+			char[] buffer = new char[8192];
+			int read;
+			while ((read = reader.read(buffer, 0, buffer.length)) > 0) {
+				builder.append(buffer, 0, read);
+			}
+			return builder.toString();
+		} finally {
+			stream.close();
 		}
 	}
 }

@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="selenium"/>
 	<classpathentry kind="src" path="dragAndDrop"/>
+	<classpathentry kind="src" path="autoIT"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
